@@ -6,11 +6,6 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisLevel>latest</AnalysisLevel>
 	</PropertyGroup>
-	<ItemGroup>
-	  <Content Remove="wwwroot\data\aboutme.json" />
-	  <Content Remove="wwwroot\data\experiences.json" />
-	  <Content Remove="wwwroot\data\trainingcenters.json" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="markdig" Version="0.40.0" />
@@ -26,15 +21,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="wwwroot\data\aboutme.json">
+	  <Content Update="wwwroot\data\aboutme.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Resource>
-	  <Resource Include="wwwroot\data\experiences.json">
+	  </Content>
+	  <Content Update="wwwroot\data\experiences.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Resource>
-	  <Resource Include="wwwroot\data\trainingcenters.json">
+	  </Content>
+	  <Content Update="wwwroot\data\trainingcenters.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Resource>
+	  </Content>
 	</ItemGroup>
 
 	<Target Name="NpmInstall" Inputs="package.json" Outputs="node_modules/.install-stamp">
