@@ -4,6 +4,9 @@
 	"description": "IdeaStudio website",
 	"main": " ",
 	"scripts": {
+		"build": "dotnet build",
+		"build:azure": "dotnet build --configuration Release",
+
 		"compile-styles": "sass wwwroot/scss/styles.scss:wwwroot/css/styles.min.css --style=compressed --update --color",
 		"watch-compile-styles": "sass wwwroot/scss/styles.scss:wwwroot/css/styles.min.css --style=compressed --update --watch --poll --color"
 	},
