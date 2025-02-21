@@ -1,6 +1,6 @@
 {
   "navigationFallback": {
-    "rewrite": "/index.html",
+    "rewrite": "index.html",
     "exclude": [ "blazor.webassembly.js", "blazor.boot.json", "_framework/*" ]
   }
 }
