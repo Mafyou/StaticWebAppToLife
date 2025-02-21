@@ -1,8 +1,6 @@
 {
   "navigationFallback": {
-    "rewrite": "/index.html"
-  },
-  "mimeTypes": {
-    ".txt": "text/html"
+    "rewrite": "/index.html",
+    "exclude": [ "blazor.webassembly.js", "blazor.boot.json", "_framework/*" ]
   }
 }
