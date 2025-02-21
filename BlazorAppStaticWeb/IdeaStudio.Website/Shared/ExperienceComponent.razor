@@ -1,0 +1,131 @@
+@using IdeaStudio.Website.Models
+@using Markdig
+
+
+<div class="card bg-light text-bg-light bg-opacity-75" data-bs-theme="light">
+	<div class="card-body">
+		<h5 class="card-title d-flex justify-content-between">
+			<span>@Title at @Company</span>
+			<span><img src="@CompanyLogo" alt="@Company" class="ms-5" style="max-height:40px; max-width:80px"
+					@onerror="CompanyLogoFail"></span>
+		</h5>
+		@if (Description is not null)
+		{
+			@foreach (var paragraph in Description)
+			{
+				@if (!string.IsNullOrWhiteSpace(paragraph))
+				{
+					<p class="card-text">@(new MarkupString(paragraph))</p>
+				}
+			}
+		}
+		<div class="accordion accordion-flush bg-transparent" style="margin-left:-1rem; margin-right: -1rem;" id="@Id">
+			@if (Responsibilities is not null)
+			{
+				<div class="accordion-item bg-transparent bg-opacity-0">
+					<h2 class="accordion-header bg-transparent bg-opacity-0">
+						<button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse"
+							data-bs-target="#flush-@(Id)-keys" aria-expanded="false" aria-controls="flush-@(Id)-keys">
+							Key responsibilities
+						</button>
+					</h2>
+					<div id="flush-@(Id)-keys" class="accordion-collapse collapse bg-transparent" data-bs-parent="#@Id">
+						<div class="accordion-body bg-transparent">
+							<ul class="list-group list-group-flush bg-transparent">
+								@foreach (var responsibility in Responsibilities)
+								{
+									<li class="list-group-item bg-transparent">@responsibility</li>
+								}
+							</ul>
+						</div>
+					</div>
+				</div>
+			}
+			@if (Skills is not null)
+			{
+				<div class="accordion-item bg-transparent bg-opacity-0">
+					<h2 class="accordion-header bg-transparent bg-opacity-0">
+						<button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse"
+							data-bs-target="#flush-@(Id)-skills" aria-expanded="false" aria-controls="flush-@(Id)-skills">
+							Skills
+						</button>
+					</h2>
+					<div id="flush-@(Id)-skills" class="accordion-collapse collapse bg-transparent" data-bs-parent="#@Id">
+						<div class="accordion-body bg-transparent">
+							<div class="d-flex flex-row flex-wrap bg-transparent">
+								@foreach (var skill in Skills)
+								{
+									<span class="badge rounded-pill text-bg-light bg-light m-1">@skill</span>
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+
+		<p class="card-text">
+			<small class="text-muted">
+				@if (Mode is not null)
+				{
+					<span>@Mode</span>
+				}
+				@if (Duration is not null)
+				{
+					<span>@(Mode is not null ? " - " : "")@(new MarkupString(Duration))</span>
+				}
+				@if (Location is not null)
+				{
+					<span> - @Location</span>
+				}
+			</small>
+		</p>
+
+	</div>
+</div>
+
+@code {
+	private string? Id { get; set; }
+	private string? Duration { get; set; }
+	[Parameter] public string? Title { get; set; }
+
+	[Parameter] public string? Company { get; set; }
+
+	[Parameter] public string? Mode { get; set; }
+
+	[Parameter] public DateTime? StartDate { get; set; }
+
+	[Parameter] public DateTime? EndDate { get; set; }
+
+	[Parameter] public string? Location { get; set; }
+
+	[Parameter] public IEnumerable<string?>? Description { get; set; }
+
+	[Parameter] public IEnumerable<string>? Responsibilities { get; set; }
+
+	[Parameter] public IEnumerable<string>? Skills { get; set; }
+
+	[Parameter] public Side Side { get; set; }
+
+	private string? CompanyLogo { get; set; }
+
+	private void CompanyLogoFail() => CompanyLogo = "images/placeholder.png";
+
+	protected override void OnInitialized()
+	{
+		CompanyLogo = $"images/{Company?.ToSeoUrl()}.png";
+		Id = $"accordion-{Guid.NewGuid()}";
+
+		if (StartDate == null)
+			throw new ArgumentNullException(nameof(StartDate));
+
+
+		Duration = $"{StartDate:MMMM yyyy} <i class='fa-solid fa-angle-right'></i> {(EndDate == null ? "Present" : $"{EndDate:MMMM yyyy}")}";
+
+		if (EndDate != null)
+		{
+			TimeSpan duration = EndDate.Value - StartDate.Value;
+			Duration += duration.TotalDays < 366 ? $" ({duration.Days / 30} months)" : $" ({duration.TotalDays / 365.25:F1} years)";
+		}
+	}
+}

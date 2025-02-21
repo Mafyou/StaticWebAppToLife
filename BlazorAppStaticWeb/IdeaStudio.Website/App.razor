@@ -1,0 +1,17 @@
+﻿<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>404</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <div class="container">
+				<div class="card">
+					<p class="col-lg-8 mx-auto my-5 fs-5 text-muted">Désolé, il n'y a aucun contenu à cette adresse.</p>
+					<p class="col-lg-8 mx-auto my-5 fs-5 text-muted">Vous pouvez vous rendre <a href="/">à la page d'accueil</a>.</p>
+				</div>
+            </div>
+        </LayoutView>
+    </NotFound>
+</Router>
