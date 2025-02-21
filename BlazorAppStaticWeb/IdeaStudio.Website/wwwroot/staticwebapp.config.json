@@ -3,6 +3,6 @@
     "rewrite": "/index.html"
   },
   "mimeTypes": {
-    ".json": "text/html"
+    ".txt": "text/html"
   }
 }
